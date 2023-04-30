@@ -7,7 +7,7 @@ public class EventHandler extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceUpdate(GuildVoiceUpdateEvent event){
-
+        //ToDo: Add Logic for creation and deletion of temp channels
     }
 
 }

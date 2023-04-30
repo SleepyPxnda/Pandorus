@@ -4,8 +4,10 @@ import de.cloudypanda.database.entities.TempChannelConfig;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public interface TempChannelRepository extends CrudRepository<TempChannelConfig, Long> {
     @Transactional
     @Modifying

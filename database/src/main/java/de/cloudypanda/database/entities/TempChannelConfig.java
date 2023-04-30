@@ -10,8 +10,8 @@ import lombok.Setter;
 @Table
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class TempChannelConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

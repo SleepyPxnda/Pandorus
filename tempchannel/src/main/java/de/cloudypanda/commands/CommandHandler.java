@@ -1,5 +1,6 @@
 package de.cloudypanda.commands;
 
+import de.cloudypanda.database.entities.TempChannelConfig;
 import de.cloudypanda.database.repositories.TempChannelRepository;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
@@ -8,10 +9,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class CommandHandler extends ListenerAdapter {
 
-    private TempChannelRepository tempChannelRepository;
+    private final TempChannelRepository tempChannelRepository;
 
-    public CommandHandler(){
-
+    public CommandHandler(TempChannelRepository tempChannelRepository) {
+        this.tempChannelRepository = tempChannelRepository;
     }
 
     @Override
@@ -20,14 +21,26 @@ public class CommandHandler extends ListenerAdapter {
             Channel selectedChannel = e.getOption("voicechannel").getAsChannel();
 
             if(!(selectedChannel instanceof VoiceChannel)){
-                e.reply("Only voicechannels can be the source of tempchannels")
+                e.getInteraction().reply("Only voicechannels can be the source of tempchannels")
                         .setEphemeral(true)
                         .queue();
                 return;
             }
-            tempChannelRepository.updateTempTriggerChannelIdByGuildId(
-                    e.getGuild().getIdLong(),
-                    selectedChannel.getIdLong());
+
+            e.getInteraction().reply("Saved configuration")
+                    .setEphemeral(true)
+                    .queue();
+
+            Long currentGuild = e.getGuild().getIdLong();
+            Long selectedChannelId = selectedChannel.getIdLong();
+
+            if(tempChannelRepository.findTempChannelConfigByGuildId(currentGuild) != null){
+                tempChannelRepository.updateTempTriggerChannelIdByGuildId(currentGuild,selectedChannelId);
+            } else {
+                tempChannelRepository.save(new TempChannelConfig((long) 0, currentGuild, selectedChannelId));
+            }
+
+
         }
     }
 }
