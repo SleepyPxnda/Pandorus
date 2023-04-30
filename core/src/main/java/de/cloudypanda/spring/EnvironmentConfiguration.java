@@ -18,12 +18,7 @@ public class EnvironmentConfiguration {
         return env.getProperty("JDA_TOKEN");
     }
 
-    public String getTempChannelSourceId(){
-        return env.getProperty("TEMP_SOURCE_CHANNEL_ID");
-    }
-
     public void logEnvVars() {
-        LOGGER.info("TEMP_SOURCE_CHANNEL_ID: " + env.getProperty("TEMP_SOURCE_CHANNEL_ID"));
         LOGGER.info("JDA_TOKEN: " + env.getProperty("JDA_TOKEN"));
     }
 }
