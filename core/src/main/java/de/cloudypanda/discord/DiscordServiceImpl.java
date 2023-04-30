@@ -3,9 +3,13 @@ package de.cloudypanda.discord;
 import de.cloudypanda.spring.EnvironmentConfiguration;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.internal.utils.PermissionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +38,20 @@ public class DiscordServiceImpl implements DiscordService {
                 environmentConfiguration.getDiscordToken(),
                 GatewayIntent.GUILD_MESSAGES,
                 GatewayIntent.GUILD_VOICE_STATES)
+                .setActivity(Activity.listening(" no music currently!"))
                 .build();
 
         this.jda.awaitReady();
+
+        this.jda.getGuilds().forEach(guild -> {
+            Member botInGuild = guild.getMember(this.jda.getSelfUser());
+
+            if(!PermissionUtil.checkPermission(botInGuild, Permission.MANAGE_CHANNEL, Permission.VOICE_MOVE_OTHERS)){
+                LOGGER.warn("Bot cannot operate on guild " + guild.getName() + " due to missing rights!");
+            }
+
+        });
+
 
         jda.updateCommands().addCommands(
                 Commands.slash("tempchannel","Sets the channel used as source for tempchannels")
@@ -62,7 +77,6 @@ public class DiscordServiceImpl implements DiscordService {
 
     private boolean allEnvVarsSet() {
 
-        return environmentConfiguration.getTempChannelSourceId() != null
-                && environmentConfiguration.getDiscordToken() != null;
+        return environmentConfiguration.getDiscordToken() != null;
     }
 }
