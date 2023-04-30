@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>core</artifactId>
+    <version>${project.parent.version}</version>
     <packaging>jar</packaging>
 
     <name>core</name>
@@ -27,12 +28,7 @@
         <dependency>
             <groupId>de.cloudypanda</groupId>
             <artifactId>tempchannel</artifactId>
-            <version>1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

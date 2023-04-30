@@ -29,6 +29,6 @@ public class TempChannelHandler {
      * @return true if it removed an element, false otherwise
      */
     public boolean checkAndRemoveTempChannel(Long channelId){
-        return this.activeTempChannels.removeIf(x -> x.getChannel().getMembers().size() == 0 && x.getChannel().getIdLong() == channelId);
+        return this.activeTempChannels.removeIf(x -> x.canDeleteVoiceChannel() && x.getChannel().getIdLong() == channelId);
     }
 }
