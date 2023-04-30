@@ -18,7 +18,7 @@ public class TempChannelHandler {
     }
 
     public void createTempChannelAndMoveMember(Category category, String name, Member member){
-        createTempChannel(category, name + activeTempChannels.size() + 1)
+        createTempChannel(category, name + (activeTempChannels.size() + 1))
                 .onSuccess(x -> member.getGuild().moveVoiceMember(member, x).queue())
                 .queue();
     }
