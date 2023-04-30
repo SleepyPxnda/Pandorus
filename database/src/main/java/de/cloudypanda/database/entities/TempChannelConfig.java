@@ -20,4 +20,5 @@ public class TempChannelConfig {
 
     private Long guildId;
     private Long tempTriggerChannelId;
+    private String tempChannelPrefix;
 }

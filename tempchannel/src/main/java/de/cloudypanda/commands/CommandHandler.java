@@ -18,29 +18,36 @@ public class CommandHandler extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent e){
         if(e.getName().equals("tempchannel")){
-            Channel selectedChannel = e.getOption("voicechannel").getAsChannel();
+            handleTempChannelCommand(e);
+        }
+    }
 
-            if(!(selectedChannel instanceof VoiceChannel)){
-                e.getInteraction().reply("Only voicechannels can be the source of tempchannels")
-                        .setEphemeral(true)
-                        .queue();
-                return;
-            }
+    private void handleTempChannelCommand(SlashCommandInteractionEvent e){
+        Channel selectedChannel = e.getOption("voicechannel").getAsChannel();
+        String channelPrefix = e.getOption("prefix").getAsString();
 
-            e.getInteraction().reply("Saved configuration")
+        if(!(selectedChannel instanceof VoiceChannel)){
+            e.getInteraction().reply("Only voicechannels can be the source of tempchannels")
                     .setEphemeral(true)
                     .queue();
+            return;
+        }
 
-            Long currentGuild = e.getGuild().getIdLong();
-            Long selectedChannelId = selectedChannel.getIdLong();
+        e.getInteraction().reply("Saved configuration")
+                .setEphemeral(true)
+                .queue();
 
-            if(tempChannelRepository.findTempChannelConfigByGuildId(currentGuild) != null){
-                tempChannelRepository.updateTempTriggerChannelIdByGuildId(currentGuild,selectedChannelId);
-            } else {
-                tempChannelRepository.save(new TempChannelConfig((long) 0, currentGuild, selectedChannelId));
-            }
+        Long currentGuild = e.getGuild().getIdLong();
+        Long selectedChannelId = selectedChannel.getIdLong();
 
-
+        if(tempChannelRepository.findTempChannelConfigByGuildId(currentGuild) != null){
+            tempChannelRepository.updateTempTriggerChannelIdByGuildId(selectedChannelId, currentGuild);
+        } else {
+            tempChannelRepository.save(new TempChannelConfig(
+                    (long) 0,
+                    currentGuild,
+                    selectedChannelId,
+                    channelPrefix));
         }
     }
 }

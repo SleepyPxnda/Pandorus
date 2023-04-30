@@ -4,6 +4,7 @@ import de.cloudypanda.commands.CommandHandler;
 import de.cloudypanda.database.repositories.TempChannelRepository;
 import de.cloudypanda.discord.DiscordService;
 import de.cloudypanda.events.EventHandler;
+import de.cloudypanda.models.TempChannelHandler;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,10 +20,14 @@ public class PandorusApplication implements CommandLineRunner {
 
     private final TempChannelRepository tempChannelRepository;
     private final DiscordService botService;
+    private final TempChannelHandler tempChannelHandler;
 
-    public PandorusApplication(DiscordService botService, TempChannelRepository tempChannelRepository){
+    public PandorusApplication(DiscordService botService,
+                               TempChannelRepository tempChannelRepository,
+                               TempChannelHandler tempChannelHandler){
         this.tempChannelRepository = tempChannelRepository;
         this.botService = botService;
+        this.tempChannelHandler = tempChannelHandler;
     }
 
 
@@ -33,7 +38,9 @@ public class PandorusApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         this.botService.startBot();
-        this.botService.registerListeners(new EventHandler(), new CommandHandler(tempChannelRepository));
+        this.botService.registerListeners(
+                new EventHandler(tempChannelRepository, tempChannelHandler),
+                new CommandHandler(tempChannelRepository));
     }
 }
 

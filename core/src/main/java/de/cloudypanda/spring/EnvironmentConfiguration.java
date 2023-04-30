@@ -1,4 +1,4 @@
-package de.cloudypanda;
+package de.cloudypanda.spring;
 
 
 import org.slf4j.Logger;
@@ -15,12 +15,15 @@ public class EnvironmentConfiguration {
     public Environment env;
 
     public String getDiscordToken(){
-        LOGGER.info("JDA_TOKEN: " + env.getProperty("JDA_TOKEN"));
         return env.getProperty("JDA_TOKEN");
     }
 
     public String getTempChannelSourceId(){
-        LOGGER.info("TEMP_SOURCE_CHANNEL_ID: " + env.getProperty("TEMP_SOURCE_CHANNEL_ID"));
         return env.getProperty("TEMP_SOURCE_CHANNEL_ID");
+    }
+
+    public void logEnvVars() {
+        LOGGER.info("TEMP_SOURCE_CHANNEL_ID: " + env.getProperty("TEMP_SOURCE_CHANNEL_ID"));
+        LOGGER.info("JDA_TOKEN: " + env.getProperty("JDA_TOKEN"));
     }
 }

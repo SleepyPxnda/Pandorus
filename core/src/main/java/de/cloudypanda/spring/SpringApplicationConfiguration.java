@@ -1,7 +1,8 @@
-package de.cloudypanda;
+package de.cloudypanda.spring;
 
 import de.cloudypanda.discord.DiscordService;
 import de.cloudypanda.discord.DiscordServiceImpl;
+import de.cloudypanda.models.TempChannelHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,4 +18,11 @@ public class SpringApplicationConfiguration {
     public DiscordService botService() {
         return new DiscordServiceImpl(environmentConfiguration);
     }
+
+    @Bean
+    public TempChannelHandler tempChannelHandler() {
+        return new TempChannelHandler();
+    }
+
 }
+
