@@ -41,7 +41,7 @@ public class CommandHandler extends ListenerAdapter {
         Long selectedChannelId = selectedChannel.getIdLong();
 
         if(tempChannelRepository.findTempChannelConfigByGuildId(currentGuild) != null){
-            tempChannelRepository.updateTempTriggerChannelIdByGuildId(selectedChannelId, currentGuild);
+            tempChannelRepository.updateTempTriggerChannelIdByGuildId(selectedChannelId, channelPrefix, currentGuild);
         } else {
             tempChannelRepository.save(new TempChannelConfig(
                     (long) 0,

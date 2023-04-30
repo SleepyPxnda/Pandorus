@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface TempChannelRepository extends CrudRepository<TempChannelConfig, Long> {
     @Transactional
     @Modifying
-    @Query("update TempChannelConfig t set t.tempTriggerChannelId = ?1 where t.guildId = ?2")
-    int updateTempTriggerChannelIdByGuildId(Long tempTriggerChannelId, Long guildId);
+    @Query("update TempChannelConfig t set t.tempTriggerChannelId = ?1, t.tempChannelPrefix =?2 where t.guildId = ?3")
+    int updateTempTriggerChannelIdByGuildId(Long tempTriggerChannelId, String prefix, Long guildId);
     TempChannelConfig findTempChannelConfigByGuildId(Long guildId);
 }
