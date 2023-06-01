@@ -18,7 +18,6 @@
         <module>tempchannel</module>
         <module>core</module>
         <module>database</module>
-        <module>assembly</module>
         <module>serverinfo</module>
     </modules>
     <properties>

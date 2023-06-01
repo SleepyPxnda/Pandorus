@@ -6,10 +6,12 @@
         <artifactId>pandorus</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>serverinfo</artifactId>
     <packaging>jar</packaging>
     <name>serverinfo</name>
     <url>http://maven.apache.org</url>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
