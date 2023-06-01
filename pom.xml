@@ -19,6 +19,7 @@
         <module>core</module>
         <module>database</module>
         <module>assembly</module>
+        <module>serverinfo</module>
     </modules>
     <properties>
         <java.version>20</java.version>

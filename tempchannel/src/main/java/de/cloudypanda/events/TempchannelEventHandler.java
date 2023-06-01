@@ -6,10 +6,10 @@ import de.cloudypanda.models.TempChannelHandler;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class EventHandler extends ListenerAdapter {
+public class TempchannelEventHandler extends ListenerAdapter {
     private final TempChannelRepository tempChannelRepository;
     private final TempChannelHandler tempChannelHandler;
-    public EventHandler(TempChannelRepository tempChannelRepository, TempChannelHandler tempChannelHandler){
+    public TempchannelEventHandler(TempChannelRepository tempChannelRepository, TempChannelHandler tempChannelHandler){
         this.tempChannelRepository = tempChannelRepository;
         this.tempChannelHandler = tempChannelHandler;
     }

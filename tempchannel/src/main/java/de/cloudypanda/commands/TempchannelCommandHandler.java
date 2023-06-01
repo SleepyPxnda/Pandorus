@@ -7,11 +7,11 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class CommandHandler extends ListenerAdapter {
+public class TempchannelCommandHandler extends ListenerAdapter {
 
     private final TempChannelRepository tempChannelRepository;
 
-    public CommandHandler(TempChannelRepository tempChannelRepository) {
+    public TempchannelCommandHandler(TempChannelRepository tempChannelRepository) {
         this.tempChannelRepository = tempChannelRepository;
     }
 

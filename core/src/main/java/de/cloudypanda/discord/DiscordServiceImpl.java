@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.internal.utils.PermissionUtil;
 import org.slf4j.Logger;
@@ -48,15 +49,28 @@ public class DiscordServiceImpl implements DiscordService {
 
             if(!PermissionUtil.checkPermission(botInGuild, Permission.MANAGE_CHANNEL, Permission.VOICE_MOVE_OTHERS)){
                 LOGGER.warn("Bot cannot operate on guild " + guild.getName() + " due to missing rights!");
+            } else {
+                LOGGER.info("Bot operating on guild " + guild.getName());
             }
 
         });
 
 
         jda.updateCommands().addCommands(
-                Commands.slash("tempchannel","Sets the channel used as source for tempchannels")
+                Commands.slash("tempchannel","Handles all commands regarding the voicechannel module")
                         .addOption(OptionType.CHANNEL, "voicechannel", "Voicechannel to be used", true)
-                        .addOption(OptionType.STRING, "prefix" , "Prefix for the voicechannels", true))
+                        .addOption(OptionType.STRING, "prefix" , "Prefix for the voicechannels", true),
+                Commands.slash("serverinfo", "Handles all commands regarding the serverinfo module")
+                        .addSubcommands(
+                                new SubcommandData("add", "adds an server to the serverinfo")
+                                .addOption(OptionType.STRING, "servername", "Name of the server", true)
+                                .addOption(OptionType.STRING, "ipaddress", "Address of the server", true),
+
+                                new SubcommandData("remove", "removes an server from the serverinfo by its name")
+                                .addOption(OptionType.STRING, "servername", "Name of the server which will be removed", true),
+
+                                new SubcommandData("list", "lists all configured servers for this server")
+                        ))
                 .queue();
     }
 
