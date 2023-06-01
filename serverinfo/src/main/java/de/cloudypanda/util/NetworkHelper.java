@@ -4,14 +4,14 @@ import java.net.InetAddress;
 
 public class NetworkHelper {
 
-    public static String pingIp(String ipAddress) {
+    public static NetworkStatus pingIp(String ipAddress) {
         InetAddress inet;
 
         try {
             inet = InetAddress.getByName(ipAddress);
-            return inet.isReachable(500) ? "YES" : "NO";
+            return inet.isReachable(500) ? NetworkStatus.REACHABLE : NetworkStatus.UNREACHABLE;
         } catch (Exception e) {
-            return "N/A";
+            return NetworkStatus.CANNOT_RESOLVE;
         }
     }
 }

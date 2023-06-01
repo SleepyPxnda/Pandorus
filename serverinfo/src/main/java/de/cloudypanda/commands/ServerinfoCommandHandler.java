@@ -3,6 +3,7 @@ package de.cloudypanda.commands;
 import de.cloudypanda.database.entities.ServerInfoConfig;
 import de.cloudypanda.database.repositories.ServerinfoRepository;
 import de.cloudypanda.util.NetworkHelper;
+import de.cloudypanda.util.NetworkStatus;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -46,27 +47,29 @@ public class ServerinfoCommandHandler extends ListenerAdapter {
 
         EmbedBuilder embed = new EmbedBuilder();
 
-        StringBuilder serverNames = new StringBuilder();
-        StringBuilder ipAdresses = new StringBuilder();
-        StringBuilder statuses = new StringBuilder();
-
-        e.deferReply().queue();
+        e.deferReply().setEphemeral(true).queue();
         Instant beforeRequest = Instant.now();
 
         servers.forEach(server -> {
-            serverNames.append(server.getServerName()).append("\n");
-            ipAdresses.append(server.getIpAddress()).append("\n");
-            statuses.append(NetworkHelper.pingIp(server.getIpAddress())).append("\n");
+            NetworkStatus statusForServer = NetworkHelper.pingIp(server.getIpAddress());
+
+            String status = switch (statusForServer){
+                case REACHABLE -> "\uD83D\uDFE2";
+                case UNREACHABLE -> "\uD83D\uDFE0";
+                case CANNOT_RESOLVE -> "\uD83D\uDD34";
+            };
+
+            embed.addField(server.getServerName(), String.format("Hosted on _%s_ by %s is %s",
+                    server.getIpAddress(),
+                    e.getGuild().getMemberById(server.getAddedBy()).getAsMention(),
+                    status
+            ),false);
         });
 
         Instant afterRequest = Instant.now();
         embed.setColor(Color.cyan);
         embed.setTitle("Serverlist for " + e.getGuild().getName());
         embed.setFooter("Retrieving status took " + Duration.between(afterRequest, beforeRequest).toSeconds() + "s");
-
-        embed.addField("Name", serverNames.toString(), true);
-        embed.addField("Address", ipAdresses.toString(), true);
-        embed.addField("Status", statuses.toString(), true);
 
         e.getInteraction().getHook().editOriginalEmbeds(embed.build()).queue();
     }

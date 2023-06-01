@@ -55,22 +55,25 @@ public class DiscordServiceImpl implements DiscordService {
 
         });
 
+        //registerCommands(jda);
+    }
 
+    private void registerCommands(JDA jda) {
         jda.updateCommands().addCommands(
-                Commands.slash("tempchannel","Handles all commands regarding the voicechannel module")
-                        .addOption(OptionType.CHANNEL, "voicechannel", "Voicechannel to be used", true)
-                        .addOption(OptionType.STRING, "prefix" , "Prefix for the voicechannels", true),
-                Commands.slash("serverinfo", "Handles all commands regarding the serverinfo module")
-                        .addSubcommands(
-                                new SubcommandData("add", "adds an server to the serverinfo")
-                                .addOption(OptionType.STRING, "servername", "Name of the server", true)
-                                .addOption(OptionType.STRING, "ipaddress", "Address of the server", true),
+                        Commands.slash("tempchannel","Handles all commands regarding the voicechannel module")
+                                .addOption(OptionType.CHANNEL, "voicechannel", "Voicechannel to be used", true)
+                                .addOption(OptionType.STRING, "prefix" , "Prefix for the voicechannels", true),
+                        Commands.slash("serverinfo", "Handles all commands regarding the serverinfo module")
+                                .addSubcommands(
+                                        new SubcommandData("add", "adds an server to the serverinfo")
+                                                .addOption(OptionType.STRING, "servername", "Name of the server", true)
+                                                .addOption(OptionType.STRING, "ipaddress", "Address of the server", true),
 
-                                new SubcommandData("remove", "removes an server from the serverinfo by its name")
-                                .addOption(OptionType.STRING, "servername", "Name of the server which will be removed", true),
+                                        new SubcommandData("remove", "removes an server from the serverinfo by its name")
+                                                .addOption(OptionType.STRING, "servername", "Name of the server which will be removed", true),
 
-                                new SubcommandData("list", "lists all configured servers for this server")
-                        ))
+                                        new SubcommandData("list", "lists all configured servers for this server")
+                                ))
                 .queue();
     }
 
