@@ -11,5 +11,4 @@ public class TempChannelManager extends VoiceChannelManagerImpl {
     public boolean canDeleteVoiceChannel() {
         return this.channel.getMembers().size() == 0;
     }
-
 }

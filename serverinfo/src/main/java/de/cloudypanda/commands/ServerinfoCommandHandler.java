@@ -55,8 +55,7 @@ public class ServerinfoCommandHandler extends ListenerAdapter {
 
             String status = switch (statusForServer){
                 case REACHABLE -> "\uD83D\uDFE2";
-                case UNREACHABLE -> "\uD83D\uDFE0";
-                case CANNOT_RESOLVE -> "\uD83D\uDD34";
+                case UNREACHABLE -> "\uD83D\uDD34";
             };
 
             embed.addField(server.getServerName(), String.format("Hosted on _%s_ by %s is %s",
